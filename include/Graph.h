@@ -16,6 +16,7 @@ class Graph {
         void addEdge(string name1, string name2, int cost);
         int deleteNode(string name);
         void removeEdge(string name1, string name2, int cost);
+        void printGraph();
         int getPosMap(string name);
     private:
         vector<vector<int>> adjacencyMatrix;

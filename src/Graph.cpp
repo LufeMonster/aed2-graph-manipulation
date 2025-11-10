@@ -54,6 +54,12 @@ void Graph::addEdge(int nodeFirst, int nodeSecond, int cost) { // private
 }
 
 // ----------------------------------------------------------------
+void Graph::printGraph() {
+    // Pre:
+    // Pos:
+}
+
+// ----------------------------------------------------------------
 int Graph::getPosMap(string name) {
     // Pre:
     // Pos:
