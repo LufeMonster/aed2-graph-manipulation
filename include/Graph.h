@@ -13,14 +13,16 @@ class Graph {
         Graph();
         ~Graph();
         int insertNode(string name);
-        void addEdge(int node1, int node2);
+        void addEdge(string name1, string name2, int cost);
         int deleteNode(string name);
-        void removeEdge(int node1, int node2);
+        void removeEdge(string name1, string name2, int cost);
         int getPosMap(string name);
     private:
         vector<vector<int>> adjacencyMatrix;
         vector<string> cityMappingList;
         int size;
+        void addEdge(int nodeFirst, int nodeSecond, int cost);
+        void removeEdge(int nodeFirst, int nodeSecond, int cost);
 };
 
 #endif
