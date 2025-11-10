@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <iomanip>
+#include <limits>
 using namespace std;
 
 #ifndef GRAPH_H
@@ -21,6 +22,7 @@ class Graph {
     private:
         vector<vector<int>> adjacencyMatrix;
         vector<string> cityMappingList;
+        const int infinity = numeric_limits<int>::max();
         int size;
         void addEdge(int nodeFirst, int nodeSecond, int cost);
         void removeEdge(int nodeFirst, int nodeSecond, int cost);

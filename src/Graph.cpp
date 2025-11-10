@@ -22,8 +22,14 @@ Graph::~Graph() {
 int Graph::insertNode(string name) {
     // Pre:
     // Pos:
+    vector<int> tempVector;
     cityMappingList.push_back(name);
-    return ++size;
+    size++;
+    for(int i = 0; i < size; i++) {
+        tempVector.push_back(infinity);
+    }
+    adjacencyMatrix.push_back(tempVector);
+    return size;
 }
 
 // ----------------------------------------------------------------
@@ -43,14 +49,10 @@ void Graph::addEdge(string name1, string name2, int cost) { // public
 void Graph::addEdge(int nodeFirst, int nodeSecond, int cost) { // private
     // Pre:
     // Pos:
-    vector<int> outVector;
-    for(int i = 0; i < nodeSecond; i++) {
-        if(i == nodeFirst)
-            outVector.push_back(cost);
-        else
-            outVector.push_back(0);
-    }
-    adjacencyMatrix.insert(adjacencyMatrix.begin() + nodeSecond, outVector);
+    vector<int> tempVector;
+    tempVector = adjacencyMatrix[nodeSecond];
+    tempVector[nodeSecond] = cost;
+    adjacencyMatrix[nodeSecond] = tempVector;
 }
 
 // ----------------------------------------------------------------
