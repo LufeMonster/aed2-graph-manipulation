@@ -1,6 +1,7 @@
 // Graph.h
 // Class to abstract the Graph manipulation
 
+#include <iostream>
 #include "../include/Graph.h"
 using namespace std;
 
@@ -39,7 +40,7 @@ void Graph::addEdge(string name1, string name2, int cost) { // public
     int pos1, pos2;
     pos1 = getPosMap(name1);
     pos2 = getPosMap(name2);
-    if(pos1 < pos2)
+    if (pos1 < pos2)
         addEdge(pos1, pos2, cost);
     else
         addEdge(pos2, pos1, cost);
@@ -51,7 +52,7 @@ void Graph::addEdge(int nodeFirst, int nodeSecond, int cost) { // private
     // Pos:
     vector<int> tempVector;
     tempVector = adjacencyMatrix[nodeSecond];
-    tempVector[nodeSecond] = cost;
+    tempVector[nodeFirst] = cost;
     adjacencyMatrix[nodeSecond] = tempVector;
 }
 
@@ -59,6 +60,22 @@ void Graph::addEdge(int nodeFirst, int nodeSecond, int cost) { // private
 void Graph::printGraph() {
     // Pre:
     // Pos:
+    int aux;
+    cout << "CITY" << endl;
+    // Imprimir numerinhos
+    for (int i = 0; i < adjacencyMatrix.size(); i++) {
+        cout << cityMappingList[i] << " ";
+        for (int j = 0; j < adjacencyMatrix[i].size(); j++) {
+
+            if (i > j) aux = adjacencyMatrix[i][j];
+            else aux = adjacencyMatrix[j][i];
+
+            if (aux == infinity) cout << "+∞ ";
+            else cout << aux << " ";
+        }
+        cout << endl;
+    }
+
 }
 
 // ----------------------------------------------------------------
@@ -70,4 +87,29 @@ int Graph::getPosMap(string name) {
             return i;
     }
     return -1;
+}
+
+int Graph::getEdge(string name1, string name2) {
+    // Pre:
+    // Pos:
+    int pos1, pos2;
+    pos1 = getPosMap(name1);
+    pos2 = getPosMap(name2);
+
+    // Verifica se cidades existem
+    if (pos1 == -1 || pos2 == -1) {
+        cout << "Error: city not found in graph. Try again..." << endl;
+        return -1;
+    } 
+
+    // Falta verificar se são a mesma cidade??
+
+    if (pos1 < pos2) getEdge(pos1, pos2);
+    else getEdge(pos2, pos1);
+}
+
+int Graph::getEdge(int nodeFirst, int nodeSecond) {
+    // Pre:
+    // Pos:
+    return adjacencyMatrix[nodeSecond][nodeFirst];
 }
