@@ -23,12 +23,9 @@ Graph::~Graph() {
 int Graph::insertNode(string name) {
     // Pre:
     // Pos:
-    vector<int> tempVector;
-    cityMappingList.push_back(name);
     size++;
-    for(int i = 0; i < size; i++) {
-        tempVector.push_back(infinity);
-    }
+    vector<int> tempVector(size, infinity);
+    cityMappingList.push_back(name);
     adjacencyMatrix.push_back(tempVector);
     return size;
 }
@@ -50,10 +47,46 @@ void Graph::addEdge(string name1, string name2, int cost) { // public
 void Graph::addEdge(int nodeFirst, int nodeSecond, int cost) { // private
     // Pre:
     // Pos:
+    adjacencyMatrix[nodeSecond][nodeFirst] = cost;
+}
+
+// ----------------------------------------------------------------
+int Graph::deleteNode(string name) {
+    // Pre:
+    // Pos:
+    size--;
     vector<int> tempVector;
-    tempVector = adjacencyMatrix[nodeSecond];
-    tempVector[nodeFirst] = cost;
-    adjacencyMatrix[nodeSecond] = tempVector;
+    int pos = getPosMap(name);
+    cout << "pos: " << pos << endl;
+    cityMappingList.erase(cityMappingList.begin() + pos);
+    for(int i = pos; i < size; i++) {
+        tempVector = adjacencyMatrix[i + 1];
+        tempVector.erase(tempVector.begin() + pos);
+        adjacencyMatrix[i] = tempVector;
+        cout << "i: " << i << endl;
+    }
+    adjacencyMatrix.erase(adjacencyMatrix.begin() + size);
+    return pos;
+}
+
+// ----------------------------------------------------------------
+void Graph::removeEdge(string name1, string name2) { // public
+    // Pre:
+    // Pos:
+    int pos1, pos2;
+    pos1 = getPosMap(name1);
+    pos2 = getPosMap(name2);
+    if (pos1 < pos2)
+        removeEdge(pos1, pos2);
+    else
+        removeEdge(pos2, pos1);
+}
+
+// ----------------------------------------------------------------
+void Graph::removeEdge(int nodeFirst, int nodeSecond) { // private
+    // Pre:
+    // Pos:
+    adjacencyMatrix[nodeSecond][nodeFirst] = infinity;
 }
 
 // ----------------------------------------------------------------
@@ -106,6 +139,7 @@ int Graph::getEdge(string name1, string name2) {
 
     if (pos1 < pos2) getEdge(pos1, pos2);
     else getEdge(pos2, pos1);
+    return 1;
 }
 
 int Graph::getEdge(int nodeFirst, int nodeSecond) {

@@ -75,6 +75,10 @@ int main() {
                 g.addEdge(city1, city2, distance);
                 break;
             case 6:
+                cout << "REMOVE CITY" << endl;
+                cout << "Enter city: ";
+                cin >> city1;
+                g.deleteNode(city1);
                 break;
             case 7:
                 break;
