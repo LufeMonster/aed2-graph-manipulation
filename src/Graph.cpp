@@ -163,5 +163,6 @@ int Graph::getEdge(string name1, string name2) {
 int Graph::getEdge(int nodeFirst, int nodeSecond) {
     // Pre:
     // Pos:
-    return adjacencyMatrix[nodeSecond][nodeFirst];
+    int aux = adjacencyMatrix[nodeSecond][nodeFirst];
+    return aux == infinity ? -1 : aux;
 }

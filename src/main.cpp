@@ -39,7 +39,7 @@ int main() {
                 
                 aux = g.getPosMap(city1);
                 if (aux == -1) cout << endl << "City not found! Try again..." << endl;
-                else cout << "City in position (" << aux << ")" << endl;
+                else cout << endl << "City in position (" << aux << ")" << endl;
                 break;
             case 3: 
                 cout << "SEARCH PATH BETWEEN CITIES" << endl;
@@ -50,7 +50,7 @@ int main() {
 
                 aux = g.getEdge(city1, city2);
                 if (aux == -1) cout << endl << "Connection not found! Try again..." << endl;
-                else cout << city1 << " is " << aux << " km away from " << city2  << endl;
+                else cout << endl << city1 << " is " << aux << " km away from " << city2  << endl;
                 break;
             case 4:
                 cout << "INSERT CITY" << endl;
@@ -61,7 +61,7 @@ int main() {
                 if (aux == -1) {
                     g.insertNode(city1);
                     cout << endl << "Successful insert of city " << city1 << endl;
-                } else cout << "City already in graph! Try again..." << endl;
+                } else cout << endl << "City already in graph! Try again..." << endl;
                 break;
             case 5:
                 cout << "INSERT PATH BETWEEN CITIES" << endl;
@@ -77,7 +77,12 @@ int main() {
                 cout << "REMOVE CITY" << endl;
                 cout << "Enter city: ";
                 getline(cin, city1);
-                g.deleteNode(city1);
+
+                aux = g.getPosMap(city1);
+                if (aux != -1) {
+                    g.deleteNode(city1);
+                    cout << endl << "Successful removal of city " << city1 << endl;
+                } else cout << endl << "City not in graph! Try again..." << endl;
                 break;
             case 7:
                 break;
