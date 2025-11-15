@@ -2,6 +2,7 @@
 // Class to abstract the Graph manipulation
 
 #include <iostream>
+#include <iomanip> 
 #include "../include/Graph.h"
 using namespace std;
 
@@ -37,6 +38,18 @@ void Graph::addEdge(string name1, string name2, int cost) { // public
     int pos1, pos2;
     pos1 = getPosMap(name1);
     pos2 = getPosMap(name2);
+
+    // Verifica se cidades existem
+    if (pos1 == -1 || pos2 == -1) {
+        cout << "Error: city not found in graph. Try again..." << endl;
+        return;
+    } 
+
+    if (pos1 == pos2) {
+        cout << "Error: cities are the same. Try again..." << endl;
+        return;
+    }
+
     if (pos1 < pos2)
         addEdge(pos1, pos2, cost);
     else
@@ -94,21 +107,29 @@ void Graph::printGraph() {
     // Pre:
     // Pos:
     int aux;
-    cout << "CITY" << endl;
-    // Imprimir numerinhos
-    for (int i = 0; i < adjacencyMatrix.size(); i++) {
-        cout << cityMappingList[i] << " ";
-        for (int j = 0; j < adjacencyMatrix[i].size(); j++) {
 
+    // Imprimir header da tabela
+    cout << left << setw(16) << "CITIES" 
+         << right << setw(10) << "ID";
+    for (int i = 0; i < adjacencyMatrix.size(); i++) {
+        cout << setw(5) << i;
+    }
+    cout << endl;
+
+    // Imprimir custo 
+    for (int i = 0; i < adjacencyMatrix.size(); i++) {
+        cout << left << setw(16) << cityMappingList[i]
+             << right << setw(10) << (" (" + to_string(i) + ")");
+        
+        for (int j = 0; j < adjacencyMatrix[i].size(); j++) {
             if (i > j) aux = adjacencyMatrix[i][j];
             else aux = adjacencyMatrix[j][i];
 
-            if (aux == infinity) cout << "+∞ ";
-            else cout << aux << " ";
+            if (aux == infinity) cout << setw(5) << "INF";
+            else cout << setw(5) << aux;
         }
         cout << endl;
     }
-
 }
 
 // ----------------------------------------------------------------
@@ -135,11 +156,8 @@ int Graph::getEdge(string name1, string name2) {
         return -1;
     } 
 
-    // Falta verificar se são a mesma cidade??
-
-    if (pos1 < pos2) getEdge(pos1, pos2);
-    else getEdge(pos2, pos1);
-    return 1;
+    if (pos1 < pos2) return getEdge(pos1, pos2);
+    else return getEdge(pos2, pos1);
 }
 
 int Graph::getEdge(int nodeFirst, int nodeSecond) {
