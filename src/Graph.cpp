@@ -106,6 +106,8 @@ void Graph::removeEdge(int nodeFirst, int nodeSecond) { // private
 void Graph::breadthFirstSearch(string searchRootName) { // public
     // Pre:
     // Pos:
+    int posSearchRoot = getPosMap(searchRootName);
+    breadthFirstSearch(posSearchRoot);
 }
 
 // ----------------------------------------------------------------
