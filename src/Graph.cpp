@@ -103,6 +103,18 @@ void Graph::removeEdge(int nodeFirst, int nodeSecond) { // private
 }
 
 // ----------------------------------------------------------------
+void Graph::breadthFirstSearch(string searchRootName) { // public
+    // Pre:
+    // Pos:
+}
+
+// ----------------------------------------------------------------
+void Graph::breadthFirstSearch(int searchRoot) { // private
+    // Pre:
+    // Pos:
+}
+
+// ----------------------------------------------------------------
 void Graph::printGraph() {
     // Pre:
     // Pos:
