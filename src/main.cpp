@@ -85,6 +85,11 @@ int main() {
                 } else cout << endl << "City not in graph! Try again..." << endl;
                 break;
             case 7:
+                cout << "BREADTH FIRST SEARCH" << endl;
+                cout << "Enter city: ";
+                getline(cin, city1);
+
+                g.breadthFirstSearch(city1);
                 break;
             case 8: 
                 break;

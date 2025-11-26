@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <iomanip> 
+#include <queue>
 #include "../include/Graph.h"
 using namespace std;
 
@@ -114,6 +115,30 @@ void Graph::breadthFirstSearch(string searchRootName) { // public
 void Graph::breadthFirstSearch(int searchRoot) { // private
     // Pre:
     // Pos:
+    vector<bool> visited(cityMappingList.size(), false); // mudar isso de lugar?
+    queue<int> q;
+    int aux, v = searchRoot;
+
+    cout << "Visited node: " << v << endl;
+    visited[v] = true;
+    q.push(v);
+
+    while (!q.empty()) {
+        v = q.front();
+        q.pop();
+
+        for (int w = 0; w < visited.size(); w++) {
+            // percorre a matriz triangular inferior
+            if (v > w) aux = adjacencyMatrix[v][w];
+            else aux = adjacencyMatrix[w][v];
+
+            if (aux != infinity && !visited[w]) {
+                visited[w] = true;
+                q.push(w);
+                cout << "Visited node: " << w << endl;
+            }
+        }
+    }
 }
 
 // ----------------------------------------------------------------
