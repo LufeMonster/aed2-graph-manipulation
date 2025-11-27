@@ -105,6 +105,6 @@ int main() {
         }
 
         cout << endl;
-    } while (option != 8);
+    } while (option != 9);
     return 0; 
 }
