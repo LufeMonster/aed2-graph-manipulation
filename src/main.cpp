@@ -11,8 +11,9 @@ void printMenu() {
     cout << "4) Insert city" << endl;
     cout << "5) Insert path between cities" << endl;
     cout << "6) Remove city" << endl;
-    cout << "7) Algorithm (to be defined)" << endl;
-    cout << "8) Exit" << endl;
+    cout << "7) Simple BreadthFirst Search" << endl;
+    cout << "8) Deep BreadthFirst Search" << endl;
+    cout << "9) Exit" << endl;
 }
 
 int main() {
@@ -85,13 +86,18 @@ int main() {
                 } else cout << endl << "City not in graph! Try again..." << endl;
                 break;
             case 7:
-                cout << "BREADTH FIRST SEARCH" << endl;
+                cout << "SIMPLE BREADTH FIRST SEARCH" << endl;
                 cout << "Enter city: ";
                 getline(cin, city1);
 
                 g.simpleBreadthFirstSearch(city1);
                 break;
-            case 8: 
+            case 8:
+                cout << "DEEP BREADTH FIRST SEARCH" << endl;
+
+                g.deepBreadthFirstSearch();
+                break;
+            case 9: 
                 break;
             default:
                 cout << "Invalid option! Try again..." << endl;
