@@ -9,8 +9,8 @@ using namespace std;
 
 // ----------------------------------------------------------------
 Graph::Graph() {
-    // Pre:
-    // Pos:
+    // Pre: nenhuma.
+    // Pos: inicializa o tamanho como zero.
     size = 0;
 }
 
@@ -23,8 +23,10 @@ Graph::~Graph() {
 
 // ----------------------------------------------------------------
 int Graph::insertNode(string name) {
-    // Pre:
-    // Pos:
+    // Pre: o nome de uma cidade a ser adicionada.
+    // Pos: incrementa o tamanho e insere a cidade tanto na matriz de
+    // adjacencias (com os custos inicializados como + infinito) quanto 
+    // no vetor de posicoes.
     size++;
     vector<int> tempVector(size, infinity);
     cityMappingList.push_back(name);
@@ -34,8 +36,8 @@ int Graph::insertNode(string name) {
 
 // ----------------------------------------------------------------
 void Graph::addEdge(string name1, string name2, int cost) { // public
-    // Pre:
-    // Pos:
+    // Pre: o nome de duas cidades a serem conectadas e a distancia entre elas.
+    // Pos: converte as cidades em suas posicoes e chama o metodo privado.
     int pos1, pos2;
     pos1 = getPosMap(name1);
     pos2 = getPosMap(name2);
@@ -59,15 +61,16 @@ void Graph::addEdge(string name1, string name2, int cost) { // public
 
 // ----------------------------------------------------------------
 void Graph::addEdge(int nodeFirst, int nodeSecond, int cost) { // private
-    // Pre:
-    // Pos:
+    // Pre: as posicoes das cidades a serem conectadas e sua distancia.
+    // Pos: atualiza a matriz de adjacencias.
     adjacencyMatrix[nodeSecond][nodeFirst] = cost;
 }
 
 // ----------------------------------------------------------------
 int Graph::deleteNode(string name) {
-    // Pre:
-    // Pos:
+    // Pre: o nome de uma cidade a ser removida.
+    // Pos: remove a cidade tanto do vetor de posicoes quanto da matriz
+    // de adjacencias, ajustando seu tamanho.
     size--;
     vector<int> tempVector;
     int pos = getPosMap(name);
@@ -85,8 +88,9 @@ int Graph::deleteNode(string name) {
 
 // ----------------------------------------------------------------
 void Graph::removeEdge(string name1, string name2) { // public
-    // Pre:
-    // Pos:
+    // Pre: o nome das cidades as quais serao removidas a conexao 
+    // entre si.
+    // Pos: chama o metodo privado.
     int pos1, pos2;
     pos1 = getPosMap(name1);
     pos2 = getPosMap(name2);
@@ -98,27 +102,31 @@ void Graph::removeEdge(string name1, string name2) { // public
 
 // ----------------------------------------------------------------
 void Graph::removeEdge(int nodeFirst, int nodeSecond) { // private
-    // Pre:
-    // Pos:
+    // Pre: a posicao das cidades as quais serao removidas a conexao 
+    // entre si.
+    // Pos: atualiza co custo na mariz de adjacencias para + infinito.
     adjacencyMatrix[nodeSecond][nodeFirst] = infinity;
 }
 
 // ----------------------------------------------------------------
-void Graph::simpleBreadthFirstSearch(string searchRootName) { // public
-    // Pre:
-    // Pos:
+void Graph::simpleBreadthFirstSearch(string searchRootName) {
+    // Pre: o nome da raiz da busca.
+    // Pos: faz uma busca das cidades conectadas a UMA cidade dada.
     int posSearchRoot = getPosMap(searchRootName);
     int connectedVector[size] = {0};
     breadthFirstSearch(posSearchRoot, connectedVector, 1);
-    for(int i = 0; i < size; i++) {
+    cout << "Connect vector: [";
+    for(int i = 0; i < size - 1; i++) {
         cout << connectedVector[i] << ", ";
     }
+    cout << connectedVector[size - 1] << "]" << endl;
 }
 
 // ----------------------------------------------------------------
-void Graph::deepBreadthFirstSearch() { // public
-    // Pre:
-    // Pos:
+void Graph::deepBreadthFirstSearch() {
+    // Pre: nenhuma.
+    // Pos: busca por TODAS as cidades conectadas entre si, separando-
+    // as pelas conexões
     int connectedVector[size] = {0};
     int nodesTested = 0;
     int iteration = 1;
@@ -132,21 +140,25 @@ void Graph::deepBreadthFirstSearch() { // public
             }
         iteration ++;
     }
-    for(int i = 0; i < size; i++) {
+    cout << "Connect vector: [";
+    for(int i = 0; i < size - 1; i++) {
         cout << connectedVector[i] << ", ";
     }
+    cout << connectedVector[size - 1] << "]" << endl;
 }
 
 // ----------------------------------------------------------------
 int Graph::breadthFirstSearch(int searchRoot, int* connectedVector, int it) { // private
-    // Pre:
-    // Pos:
-    //vector<bool> visited(cityMappingList.size(), false); // mudar isso de lugar?
+    // Pre: posicao da raiz da busca, um vetor de conexoes a ser manipulado e 
+    // a iteracao atual.
+    // Pos: faz uma busca das cidades conectadas a raiz e atualiza o vetor de
+    // conexoes. Metodo generico, privado  e de uso comum a simpleBreadthFirstSearch 
+    // e deepBreadthFirstSearch.
     queue<int> q;
     int aux, v = searchRoot;
     int connectedItems = 1;
 
-    cout << "Visited node: " << v << endl;
+    string visitedNodes = (" " + to_string(v));
     connectedVector[v] = it;
     q.push(v);
 
@@ -163,17 +175,18 @@ int Graph::breadthFirstSearch(int searchRoot, int* connectedVector, int it) { //
                 connectedVector[w] = it;
                 connectedItems ++;
                 q.push(w);
-                cout << "Visited node: " << w << endl;
+                visitedNodes += (" " + to_string(w));
             }
         }
     }
+    cout << "It. " << it << "; visited nodes:" << visitedNodes << "." << endl;
     return connectedItems;
 }
 
 // ----------------------------------------------------------------
 void Graph::printGraph() {
-    // Pre:
-    // Pos:
+    // Pre: nenhuma.
+    // Pos: imprime a matriz de adjacencias numa formatacao amigavel.
     int aux;
 
     // Imprimir header da tabela
@@ -202,8 +215,8 @@ void Graph::printGraph() {
 
 // ----------------------------------------------------------------
 int Graph::getPosMap(string name) {
-    // Pre:
-    // Pos:
+    // Pre: nome de uma cidade.
+    // Pos: retorna sua posicao na  matriz.
     for(int i = 0; i < size ; i++) {
         if (cityMappingList[i] == name) // talvez transformar ambas em lower case?
             return i;
@@ -211,9 +224,10 @@ int Graph::getPosMap(string name) {
     return -1;
 }
 
-int Graph::getEdge(string name1, string name2) {
-    // Pre:
-    // Pos:
+// ----------------------------------------------------------------
+int Graph::getEdge(string name1, string name2) { // public
+    // Pre: nome de duas cidades conectadas.
+    // Pos: chama o  metodo privado.
     int pos1, pos2;
     pos1 = getPosMap(name1);
     pos2 = getPosMap(name2);
@@ -228,9 +242,10 @@ int Graph::getEdge(string name1, string name2) {
     else return getEdge(pos2, pos1);
 }
 
-int Graph::getEdge(int nodeFirst, int nodeSecond) {
-    // Pre:
-    // Pos:
+// ----------------------------------------------------------------
+int Graph::getEdge(int nodeFirst, int nodeSecond) { // private
+    // Pre: a posicao de duas cidades conectadas.
+    // Pos: retorna a distancia entre elas.
     int aux = adjacencyMatrix[nodeSecond][nodeFirst];
     return aux == infinity ? -1 : aux;
 }
