@@ -89,7 +89,7 @@ int main() {
                 cout << "Enter city: ";
                 getline(cin, city1);
 
-                g.breadthFirstSearch(city1);
+                g.simpleBreadthFirstSearch(city1);
                 break;
             case 8: 
                 break;

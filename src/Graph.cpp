@@ -104,41 +104,70 @@ void Graph::removeEdge(int nodeFirst, int nodeSecond) { // private
 }
 
 // ----------------------------------------------------------------
-void Graph::breadthFirstSearch(string searchRootName) { // public
+void Graph::simpleBreadthFirstSearch(string searchRootName) { // public
     // Pre:
     // Pos:
     int posSearchRoot = getPosMap(searchRootName);
-    breadthFirstSearch(posSearchRoot);
+    int connectedVector[size] = {0};
+    breadthFirstSearch(posSearchRoot, connectedVector, 1);
+    for(int i = 0; i < size; i++) {
+        cout << connectedVector[i] << ", ";
+    }
 }
 
 // ----------------------------------------------------------------
-void Graph::breadthFirstSearch(int searchRoot) { // private
+void Graph::deepBreadthFirstSearch() { // public
     // Pre:
     // Pos:
-    vector<bool> visited(cityMappingList.size(), false); // mudar isso de lugar?
+    int connectedVector[size] = {0};
+    int nodesTested = 0;
+    int iteration = 1;
+    int nextDisconnectedNode = 0;
+    while(nodesTested < size) {
+        nodesTested += breadthFirstSearch(nextDisconnectedNode, connectedVector, iteration);
+        for(int i = 0; i < size; i++)
+            if(connectedVector[i] == 0) {
+                nextDisconnectedNode = i;
+                break;
+            }
+        iteration ++;
+    }
+    for(int i = 0; i < size; i++) {
+        cout << connectedVector[i] << ", ";
+    }
+}
+
+// ----------------------------------------------------------------
+int Graph::breadthFirstSearch(int searchRoot, int* connectedVector, int it) { // private
+    // Pre:
+    // Pos:
+    //vector<bool> visited(cityMappingList.size(), false); // mudar isso de lugar?
     queue<int> q;
     int aux, v = searchRoot;
+    int connectedItems = 1;
 
     cout << "Visited node: " << v << endl;
-    visited[v] = true;
+    connectedVector[v] = it;
     q.push(v);
 
     while (!q.empty()) {
         v = q.front();
         q.pop();
 
-        for (int w = 0; w < visited.size(); w++) {
+        for (int w = 0; w < size; w++) {
             // percorre a matriz triangular inferior
             if (v > w) aux = adjacencyMatrix[v][w];
             else aux = adjacencyMatrix[w][v];
 
-            if (aux != infinity && !visited[w]) {
-                visited[w] = true;
+            if (aux != infinity && !connectedVector[w]) {
+                connectedVector[w] = it;
+                connectedItems ++;
                 q.push(w);
                 cout << "Visited node: " << w << endl;
             }
         }
     }
+    return connectedItems;
 }
 
 // ----------------------------------------------------------------

@@ -17,7 +17,8 @@ class Graph {
         void addEdge(string name1, string name2, int cost);
         int deleteNode(string name);
         void removeEdge(string name1, string name2);
-        void breadthFirstSearch(string searchRootName);
+        void simpleBreadthFirstSearch(string searchRootName);
+        void deepBreadthFirstSearch();
         void printGraph();
         int getPosMap(string name);
         int getEdge(string name1, string name2);
@@ -28,7 +29,7 @@ class Graph {
         int size;
         void addEdge(int nodeFirst, int nodeSecond, int cost);
         void removeEdge(int nodeFirst, int nodeSecond);
-        void breadthFirstSearch(int searchRoot);
+        int breadthFirstSearch(int searchRoot, int* connectedVector, int it);
         int getEdge(int nodeFirst, int nodeSecond);
 
 };
